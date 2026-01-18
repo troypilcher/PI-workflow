@@ -27,7 +27,7 @@ jobs:
         run: npm install -g pkg
 
       - name: Build EXE
-        run: pkg . --targets node18-win-x64 --output MyApp.exe
+        run: pkg index.js --targets node18-win-x64 --output MyApp.exe
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
