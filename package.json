@@ -1,0 +1,22 @@
+{
+  "name": "file-backup-manager",
+  "version": "1.0.0",
+  "description": "A robust file backup manager with comprehensive error handling",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "backup": "node index.js backup",
+    "status": "node index.js status",
+    "restore": "node index.js restore"
+  },
+  "keywords": [
+    "backup",
+    "file-management",
+    "error-handling"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

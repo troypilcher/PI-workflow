@@ -1,0 +1,11 @@
+Image Directory
+===============
+
+This directory would contain image files in a real application.
+For demonstration purposes, this is a text file.
+
+Supported formats:
+- PNG
+- JPG
+- GIF
+- SVG

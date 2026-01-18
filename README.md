@@ -1,13 +1,204 @@
-# Error Handling Improvement Project
+# File Backup Manager
 
-This project demonstrates best practices for implementing robust error handling in JavaScript applications. All functions have been improved with comprehensive error handling, input validation, and clear error messages.
+A production-ready file backup application demonstrating best practices for error handling in JavaScript. This is a complete, fully functional CLI application that you can use right now.
 
-## Files
+## Quick Start
 
-- `file-operations.js` - File system operations with comprehensive error handling
-- `api-client.js` - Network requests with timeout and error handling
-- `data-processor.js` - Data processing functions with validation
-- `database.js` - Database operations with connection state management
+```bash
+# Run a backup
+node index.js backup
+
+# Check backup status
+node index.js status
+
+# Restore from a backup
+node index.js restore backup-2026-01-18T12-00-00-000Z ./restored
+```
+
+## Features
+
+- ✅ **Automated Backups**: Back up entire directories with a single command
+- ✅ **Smart Exclusions**: Exclude temporary files, logs, and node_modules
+- ✅ **Backup History**: Automatically maintains a configurable number of backups
+- ✅ **Easy Restoration**: Restore any backup with one command
+- ✅ **Detailed Logging**: Color-coded console output with comprehensive error messages
+- ✅ **Robust Error Handling**: Continues backing up even if individual files fail
+- ✅ **Metadata Tracking**: Stores backup information including file counts and sizes
+
+## Application Structure
+
+```
+PI-workflow/
+├── index.js                 # Main application and CLI interface
+├── file-operations.js       # File operations with error handling
+├── api-client.js            # Network operations (for future features)
+├── data-processor.js        # Data validation and processing
+├── database.js              # Database operations (for future features)
+├── logger.js                # Logging utility
+├── config.example.json      # Example configuration file
+├── package.json             # Package metadata
+├── data/                    # Sample source directory
+│   ├── documents/
+│   └── images/
+└── backups/                 # Backup destination (created automatically)
+```
+
+## Installation & Setup
+
+1. **Clone or download this repository**
+
+2. **Navigate to the directory**
+   ```bash
+   cd PI-workflow
+   ```
+
+3. **The application is ready to use!** (No npm install needed - uses only Node.js built-in modules)
+
+4. **Optional: Create a custom configuration**
+   ```bash
+   cp config.example.json config.json
+   # Then edit config.json to customize your backup settings
+   ```
+
+## Usage
+
+### 1. Create a Backup
+
+```bash
+node index.js backup
+```
+
+This will:
+- Create a timestamped backup directory
+- Copy all files from configured source directories
+- Exclude files matching patterns (*.tmp, *.log, node_modules, etc.)
+- Generate metadata about the backup
+- Automatically clean up old backups (keeps latest 5 by default)
+
+Output example:
+```
+[12:00:00] INFO: Initializing Backup Manager...
+[12:00:00] SUCCESS: Configuration loaded from ./config.json
+[12:00:00] SUCCESS: Backup directory ready: ./backups
+[12:00:00] INFO: Starting backup operation...
+[12:00:00] INFO: Created backup directory: ./backups/backup-2026-01-18T12-00-00-000Z
+[12:00:00] INFO: Backing up from: ./data
+[12:00:01] SUCCESS: Backup completed successfully!
+[12:00:01] INFO: Files backed up: 3
+[12:00:01] INFO: Files failed: 0
+[12:00:01] INFO: Total size: 2.5 KB
+```
+
+### 2. Check Backup Status
+
+```bash
+node index.js status
+```
+
+This displays:
+- Configuration details
+- List of all backups
+- File counts and sizes
+- Backup timestamps
+
+Output example:
+```
+[12:05:00] INFO: Backup Status
+[12:05:00] INFO: ==================================================
+[12:05:00] INFO: Configuration file: ./config.json
+[12:05:00] INFO: Backup directory: ./backups
+[12:05:00] INFO: Source directories: ./data
+[12:05:00] INFO: Max backups to keep: 5
+[12:05:00] INFO:
+[12:05:00] INFO: Total backups: 2
+[12:05:00] INFO: ==================================================
+[12:05:00] INFO:
+[12:05:00] INFO: 1. backup-2026-01-18T12-00-00-000Z
+[12:05:00] INFO:    Date: 1/18/2026, 12:00:00 PM
+[12:05:00] INFO:    Files: 3
+[12:05:00] INFO:    Size: 2.5 KB
+```
+
+### 3. Restore from Backup
+
+```bash
+# Restore to default location (./restored)
+node index.js restore backup-2026-01-18T12-00-00-000Z
+
+# Restore to custom location
+node index.js restore backup-2026-01-18T12-00-00-000Z ./my-restored-files
+```
+
+This will:
+- Verify the backup exists
+- Create the restore directory
+- Copy all files from the backup
+- Report results
+
+### 4. Get Help
+
+```bash
+node index.js help
+```
+
+## Configuration
+
+Edit `config.json` to customize your backup settings:
+
+```json
+{
+  "backupDirectory": "./backups",
+  "sourceDirectories": [
+    "./data",
+    "./documents",
+    "./projects"
+  ],
+  "excludePatterns": [
+    "*.tmp",
+    "*.log",
+    "node_modules",
+    ".git"
+  ],
+  "maxBackups": 5,
+  "compressionEnabled": false
+}
+```
+
+**Configuration Options:**
+
+- `backupDirectory` (string): Where to store backups
+- `sourceDirectories` (array): Directories to back up
+- `excludePatterns` (array): File patterns to exclude (supports wildcards)
+- `maxBackups` (number): Maximum number of backups to keep (older ones are deleted)
+- `compressionEnabled` (boolean): Reserved for future use
+
+## Error Handling Demonstration
+
+This application showcases comprehensive error handling across all operations:
+
+### Real-World Error Handling Examples
+
+**File Not Found:**
+```
+[12:00:00] WARN: Source directory not found, skipping: ./missing-dir
+```
+
+**Permission Denied:**
+```
+[12:00:00] ERROR: Failed to backup file ./protected.txt: Permission denied reading source file: './protected.txt'
+```
+
+**Disk Full:**
+```
+[12:00:00] ERROR: Failed to backup file ./large.dat: Not enough disk space to copy file to: './backups/backup-xxx/large.dat'
+```
+
+**Invalid Configuration:**
+```
+[12:00:00] ERROR: Failed to initialize: Configuration error: at least one source directory is required
+```
+
+The application continues operation even when individual files fail, collecting all errors and reporting them at the end.
 
 ## Error Handling Improvements Implemented
 

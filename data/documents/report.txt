@@ -1,0 +1,11 @@
+Annual Report 2026
+==================
+
+This is a sample document for testing the backup manager.
+
+Key Points:
+- Revenue increased by 25%
+- Customer satisfaction at all-time high
+- New products launched successfully
+
+This file will be backed up by the backup manager application.

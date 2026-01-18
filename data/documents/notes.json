@@ -1,0 +1,22 @@
+{
+  "title": "Project Notes",
+  "date": "2026-01-18",
+  "tasks": [
+    {
+      "id": 1,
+      "description": "Complete error handling implementation",
+      "status": "done"
+    },
+    {
+      "id": 2,
+      "description": "Create backup application",
+      "status": "in_progress"
+    },
+    {
+      "id": 3,
+      "description": "Write documentation",
+      "status": "pending"
+    }
+  ],
+  "tags": ["development", "backup", "error-handling"]
+}

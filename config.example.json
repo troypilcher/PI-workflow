@@ -1,0 +1,14 @@
+{
+  "backupDirectory": "./backups",
+  "sourceDirectories": [
+    "./data"
+  ],
+  "excludePatterns": [
+    "*.tmp",
+    "*.log",
+    "node_modules",
+    ".git"
+  ],
+  "maxBackups": 5,
+  "compressionEnabled": false
+}
