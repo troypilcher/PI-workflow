@@ -1,11 +1,17 @@
-name: Build Windows EXE
+name: Build Desktop Apps (Win + Mac)
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-win:
-    runs-on: windows-latest
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,18 +25,33 @@ jobs:
         run: npm install
 
       - name: Ensure config exists
-        shell: pwsh
+        shell: bash
         run: |
-          if (!(Test-Path "config.json")) { Copy-Item "config.example.json" "config.json" }
+          if [ ! -f "config.json" ]; then
+            cp "config.example.json" "config.json"
+          fi
 
       - name: Install pkg
         run: npm install -g pkg
 
-      - name: Build EXE
-        run: pkg index.js --targets node18-win-x64 --output MyApp.exe
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: pkg index.js --targets node18-win-x64 --output FileBackupManager.exe
 
-      - name: Upload EXE
+      - name: Build (Mac)
+        if: runner.os == 'macOS'
+        run: pkg index.js --targets node18-macos-x64 --output FileBackupManager-mac
+
+      - name: Upload (Windows)
+        if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
-          name: MyApp-Windows
-          path: MyApp.exe
+          name: FileBackupManager-Windows
+          path: FileBackupManager.exe
+
+      - name: Upload (Mac)
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: FileBackupManager-Mac
+          path: FileBackupManager-mac
